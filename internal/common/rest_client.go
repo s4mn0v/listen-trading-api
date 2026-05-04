@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
 	"github.com/s4mn0v/listen-trading-api/config"
 	"github.com/s4mn0v/listen-trading-api/constants"
 )
@@ -37,13 +38,13 @@ func (p *BitgetRestClient) DoGet(uri string, params map[string]string) (string, 
 
 	fullUrl := config.BaseUrl + uri + queryString
 	timestamp := strconv.FormatInt(time.Now().UnixNano()/int64(time.Millisecond), 10)
-	
-	// Lógica de firma de la V2
+
+	// V2 signature logic
 	preHash := timestamp + constants.GET + uri + queryString
 	sign := p.generateSignature(preHash)
 
 	req, _ := http.NewRequest(constants.GET, fullUrl, nil)
-	
+
 	req.Header.Add(constants.BgAccessKey, p.ApiKey)
 	req.Header.Add(constants.BgAccessSign, sign)
 	req.Header.Add(constants.BgAccessPassphrase, p.Passphrase)

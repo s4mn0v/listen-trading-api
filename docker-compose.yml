@@ -1,0 +1,17 @@
+name: copy_trading_db
+
+services:
+  mongodb:
+    image: mongo:latest
+    hostname: copy_trading_db
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-password123}
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

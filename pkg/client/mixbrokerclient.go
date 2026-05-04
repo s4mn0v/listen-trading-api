@@ -18,7 +18,13 @@ func (p *MixBrokerClient) QueryTraders(pageSize, pageNo string) (string, error) 
 		"pageSize": pageSize,
 		"pageNo":   pageNo,
 	}
-	// Endpoint V2 para listar traders
-	resp, err := p.BitgetRestClient.DoGet("/api/v2/copy/mix-broker/query-traders", params)
-	return resp, err
+	return p.BitgetRestClient.DoGet("/api/v2/copy/mix-broker/query-traders", params)
+}
+
+func (p *MixBrokerClient) QueryCurrentTrack(traderId string) (string, error) {
+	params := map[string]string{
+		"traderId":    traderId,
+		"productType": "usdt-futures", // HARDCORE FIX LATER TO BE GLOBAL
+	}
+	return p.BitgetRestClient.DoGet("/api/v2/copy/mix-broker/query-current-traces", params)
 }
